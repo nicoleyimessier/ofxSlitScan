@@ -18,7 +18,11 @@ public:
 
 
 	void drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh, 
-							float proto_val0, float proto_val1);
+							float anim_val, float target_ypos);
+
+
+	void drawHorizontalSwipe(int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
+		float proto_val0, float proto_val1);
 
 private: 
 
