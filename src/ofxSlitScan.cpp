@@ -132,7 +132,7 @@ void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& 
     pixel_stretch.verts.bl.x = where.pos.x;
     pixel_stretch.verts.bl.y = where.pos.y + where.size.y;
 
-    pixel_stretch.verts.br.x = where.pos.x * 2 + where.size.x;
+    pixel_stretch.verts.br.x = where.pos.x + where.size.x;
     pixel_stretch.verts.br.y = where.pos.y + where.size.y;
 
     //! TEXTURE
@@ -140,13 +140,13 @@ void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& 
     pixel_stretch.texCoords.tl.y = tex.size.y;
 
     pixel_stretch.texCoords.tr.x = tex.pos.x + tex.size.x;
-    pixel_stretch.texCoords.tr.y = tex.size.y;
+    pixel_stretch.texCoords.tr.y = pixel_stretch.texCoords.tl.y;
 
-    pixel_stretch.texCoords.bl.x = tex.pos.x;
+    pixel_stretch.texCoords.bl.x = pixel_stretch.texCoords.tl.x;
     pixel_stretch.texCoords.bl.y = tex.size.y;
 
-    pixel_stretch.texCoords.br.x = tex.pos.x + tex.size.x;
-    pixel_stretch.texCoords.br.y = tex.size.y;
+    pixel_stretch.texCoords.br.x = pixel_stretch.texCoords.tr.x;
+    pixel_stretch.texCoords.br.y = pixel_stretch.texCoords.bl.y;
     
     MeshHelper::one().addToMesh(mesh, pixel_stretch);
 
@@ -156,48 +156,48 @@ void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& 
     tex_ref.unbind();
 }
 
-void ofxSlitScan::drawHorizontalSwipe(int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh, float proto_val0, float proto_val1) {
+void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
+    float anim_wipe, float anim_slit, float val1, float val2, float val3) {
+
 
     for (int i = 0; i < num_cols; i++) {
 
-        float size_percent = ( size.x / num_cols ) / size.x;
-        float mapCounter = ofMap(i, -1, num_cols - 1, 1, 0);
-        //float mapCounter = ofMap(i, 0, num_cols, 0, 1); //uncomment for right to left slot in 
-        float offSsetExp = powf(mapCounter, 1.0f);
-        float offSsetExp_map = ofMap(offSsetExp, 0, 1, tex_ref.getWidth() - tex_ref.getWidth()/num_cols, proto_val1);
 
         MeshHelper::RectData where;
         where.size.x = size.x / num_cols;
         where.size.y = size.y;
-        //where.pos.x = where.size.x * i; 
-        where.pos.x = pos.x + where.size.x * i - proto_val0;
-        where.pos.y = pos.y;
+        where.pos.y = 0.0f;
+        where.pos.x = pos.x + where.size.x * i + size.x - size.x * anim_wipe;
+
+        float size_percent = where.size.x / size.x;
+        float mapCounter = ofMap(i, 0, num_cols + 2, 1, 0);
+        //float mapCounter = ofMap(i, 0, num_cols + 2, 0, 1);
+
+        //! functions
+        //float offSsetExp = powf(mapCounter, 5.0 * anim_slit);
+        //float offSsetExp = 1 - sqrt(1 - powf(mapCounter, 7.0 * anim_slit));
+        float offSsetExp = doubleOddPolynomialSeat(mapCounter, 0.25 * anim_slit, 1.25 * ofMap(anim_slit, 1, 0, 0, 1), 0.0);
+        //float offSsetExp = doubleOddPolynomialSeat(mapCounter, 1.6 * anim_slit, 1.5 * ofMap(anim_slit, 1, 0, 0, 1), 8.0);
+
+        float offSsetExp_map;
+        offSsetExp_map = ofMap(offSsetExp, 0, 1, size_percent, 1.0f);
+        offSsetExp_map = ofClamp(offSsetExp_map, size_percent, 1.0f);
 
         MeshHelper::RectData tex;
         glm::vec2 content_size = glm::vec2(tex_ref.getWidth(), tex_ref.getHeight());
 
-        // start values
-        glm::vec2 start_size, start_pos;
-        glm::vec2 target_size, target_pos;
-
-        start_size.y = content_size.y;
-        start_size.x = content_size.x / num_cols;
-        start_pos.y = 0;
-        start_pos.x = tex.size.x * i;
-
-        // animation vals
-        target_size.y = content_size.y;
-        target_size.x = content_size.x / num_cols; 
-        target_pos.y = content_size.y;
-        target_pos.x = tex.size.x * i;
-
         tex.size.y = content_size.y;
-        tex.size.x = content_size.x / num_cols;
+        tex.size.x = content_size.x / num_cols ;
         tex.pos.y = 0.0f;
-        //tex.pos.x = tex.size.x * (num_cols - 1);
-        tex.pos.x = offSsetExp_map;
 
-        //tex.pos.x = proto_val0;
+        // add dist?
+        float i_start = (float)num_cols - 1.;
+        float i_target = (float)i;
+        float final_i = i_start - abs(i_start - i_target) * offSsetExp_map;
+        //tex.pos.x = tex.size.x * final_i;
+        
+        tex.pos.x = tex.size.x * i * offSsetExp_map;
+        //tex.pos.x = tex.size.x * ofMap(i, 0, num_cols, num_cols, 0) * offSsetExp_map;
 
         MeshHelper::TexQuad quad = MeshHelper::one().getQuad(where, tex);
         MeshHelper::one().addToMesh(mesh, quad);
@@ -209,4 +209,126 @@ void ofxSlitScan::drawHorizontalSwipe(int num_cols, glm::vec2 pos, glm::vec2 siz
     mesh.draw();
     tex_ref.unbind();
 
+}
+
+void ofxSlitScan::drawVerticalTransition(int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
+    float anim_slit, float anim_move_up, float anim_mask_out) {
+
+    float mask_pos = 1.0 / 3.0;
+    float mask_target = pos.y + size.y * mask_pos;
+    for (int i = 0; i < num_rows; i++) {
+
+
+        MeshHelper::RectData where;
+        float start_size = size.y / num_rows; 
+        where.size.x = size.x;
+
+        float img_y_pos = pos.y + start_size * i; 
+        if (i > num_rows * mask_pos) {
+            float move_dist = abs(img_y_pos - mask_target);
+            where.pos.y = img_y_pos + size.y - size.y * anim_move_up - move_dist * anim_mask_out;
+        }
+        else {
+            float move_dist = abs(img_y_pos - mask_target);
+            where.pos.y = img_y_pos + size.y - size.y * anim_move_up + move_dist * anim_mask_out;
+
+        }
+
+        where.size.y = size.y / num_rows; 
+        where.pos.x = 0.0f;
+
+
+
+        //float size_percent = where.size.y / ofGetHeight();
+        float size_percent = start_size / size.y;
+        float mapCounter = ofMap(i, 0, num_rows + 2, 0, 1);
+        float offSsetExp = powf(mapCounter, anim_slit);
+
+        float offSsetExp_map;
+        offSsetExp_map = ofMap(offSsetExp, 0.0, 1.0, 1.0, size_percent);
+        //offSsetExp_map = ofClamp(offSsetExp_map, 1.0, 0.0f);
+
+
+        MeshHelper::RectData tex;
+        glm::vec2 content_size = glm::vec2(tex_ref.getWidth(), tex_ref.getHeight());
+
+
+        tex.size.x = content_size.x;
+        tex.size.y = content_size.y / num_rows * offSsetExp_map; // *percent_height;
+        tex.pos.x = 0.0f;
+        tex.pos.y = tex.size.y * i;
+
+        MeshHelper::TexQuad quad = MeshHelper::one().getQuad(where, tex);
+        MeshHelper::one().addToMesh(mesh, quad);
+
+    }
+
+    //! draw mesh
+    tex_ref.bind();
+    mesh.draw();
+    tex_ref.unbind();
+
+}
+
+#pragma mark FUNCTION UTILS
+
+float ofxSlitScan::blinnWyvillCosineApproximation(float x) {
+
+    float x2 = x * x;
+    float x4 = x2 * x2;
+    float x6 = x4 * x2;
+
+    float fa = (4.0 / 9.0);
+    float fb = (17.0 / 9.0);
+    float fc = (22.0 / 9.0);
+
+    float y = fa * x6 - fb * x4 + fc * x2;
+    return y;
+}
+
+float ofxSlitScan::doubleOddPolynomialSeat(float x, float a, float b, int n) {
+
+    float epsilon = 0.00001;
+    float min_param_a = 0.0 + epsilon;
+    float max_param_a = 1.0 - epsilon;
+    float min_param_b = 0.0;
+    float max_param_b = 1.0;
+    a = min(max_param_a, max(min_param_a, a));
+    b = min(max_param_b, max(min_param_b, b));
+
+    int p = 2 * n + 1;
+    float y = 0;
+    if (x <= a) {
+        y = b - b * pow(1 - x / a, p);
+    }
+    else {
+        y = b + (1 - b) * pow((x - a) / (1 - a), p);
+    }
+    return y;
+}
+
+float ofxSlitScan::doublePolynomialSigmoid(float x, float a, float b, int n) {
+
+    float y = 0;
+    if (n % 2 == 0) {
+        // even polynomial
+        if (x <= 0.5) {
+            y = pow(2.0 * x, n) / 2.0;
+        }
+        else {
+            y = 1.0 - pow(2 * (x - 1), n) / 2.0;
+        }
+    }
+
+    else {
+        // odd polynomial
+        if (x <= 0.5) {
+            y = pow(2.0 * x, n) / 2.0;
+        }
+        else {
+            y = 1.0 + pow(2.0 * (x - 1), n) / 2.0;
+        }
+    }
+
+    return y;
 }
