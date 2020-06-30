@@ -214,7 +214,7 @@ void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size
 void ofxSlitScan::drawVerticalTransition(int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
     float anim_slit, float anim_move_up, float anim_mask_out) {
 
-    float mask_pos = 1.0 / 3.0;
+    float mask_pos = 1.0 / 5.0;
     float mask_target = pos.y + size.y * mask_pos;
     for (int i = 0; i < num_rows; i++) {
 
@@ -235,6 +235,7 @@ void ofxSlitScan::drawVerticalTransition(int num_rows, glm::vec2 pos, glm::vec2 
         }
 
         where.size.y = size.y / num_rows; 
+
         where.pos.x = 0.0f;
 
 
@@ -242,7 +243,7 @@ void ofxSlitScan::drawVerticalTransition(int num_rows, glm::vec2 pos, glm::vec2 
         //float size_percent = where.size.y / ofGetHeight();
         float size_percent = start_size / size.y;
         float mapCounter = ofMap(i, 0, num_rows + 2, 0, 1);
-        float offSsetExp = powf(mapCounter, anim_slit);
+        float offSsetExp = powf(mapCounter, 4.0 * anim_slit);
 
         float offSsetExp_map;
         offSsetExp_map = ofMap(offSsetExp, 0.0, 1.0, 1.0, size_percent);
@@ -269,6 +270,78 @@ void ofxSlitScan::drawVerticalTransition(int num_rows, glm::vec2 pos, glm::vec2 
     tex_ref.unbind();
 
 }
+
+void ofxSlitScan::drawVerticalBase( int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_move_up, float offset_y )
+{
+
+    for( int i = 0; i < num_rows; i++ ) {
+
+
+        MeshHelper::RectData where;
+        float start_size = size.y / num_rows;
+        where.size.x = size.x;
+        where.size.y = size.y / num_rows;
+        where.pos.x = 0.0f;
+
+        float start_pos = pos.y + size.y; 
+        float target_pos = pos.y + start_size * i; 
+        where.pos.y = start_pos - abs( start_pos - target_pos ) * anim_move_up;
+
+        MeshHelper::RectData tex;
+        glm::vec2            content_size = glm::vec2( tex_ref.getWidth(), tex_ref.getHeight() );
+
+
+        tex.size.x = content_size.x;
+        tex.size.y = content_size.y / num_rows; // *percent_height;
+        tex.pos.x = 0.0f;
+        float offset = ofMap( offset_y, 0.0, 1.0, 1.0, 0.6 ); 
+        tex.pos.y = tex.size.y * i - content_size.y / num_rows * i * offset;
+
+        MeshHelper::TexQuad quad = MeshHelper::one().getQuad( where, tex );
+        MeshHelper::one().addToMesh( mesh, quad );
+    }
+
+    //! draw mesh
+    tex_ref.bind();
+    mesh.draw();
+    tex_ref.unbind();
+}
+
+void ofxSlitScan::drawVerticalOverlay(int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_move_up, float offset_y )
+{
+
+}
+
+void ofxSlitScan::drawVerticalMaskOut(
+    int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, vector<float> &anim_vals )
+{
+    for( int i = 0; i < num_cols; i++ ) {
+        MeshHelper::RectData where;
+
+        where.size.x = size.x / num_cols;
+        where.size.y = size.y - size.y * anim_vals[i];
+        where.pos.x = where.size.x * i;
+        where.pos.y = pos.y; 
+
+        MeshHelper::RectData tex;
+        glm::vec2            content_size = glm::vec2( tex_ref.getWidth(), tex_ref.getHeight() );
+
+        // animation vals
+        tex.size.y = content_size.y - content_size.y * anim_vals[i];
+        tex.size.x = content_size.x / num_cols;
+        tex.pos.y = 0.0f;
+        tex.pos.x = tex.size.x * i;
+
+        MeshHelper::TexQuad quad = MeshHelper::one().getQuad( where, tex );
+        MeshHelper::one().addToMesh( mesh, quad );
+    }
+
+    //! draw mesh
+    tex_ref.bind();
+    mesh.draw();
+    tex_ref.unbind();
+}
+
 
 #pragma mark FUNCTION UTILS
 
