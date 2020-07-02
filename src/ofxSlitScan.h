@@ -14,7 +14,7 @@ class ofxSlitScan {
 
     //! city stream types
     void drawVerticalSlotIn( int num_cols, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target,
-        float anim_val, float proto_val );
+        float anim_val);
 
 
     void drawHorizontalPixel( glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_val, float target_ypos );

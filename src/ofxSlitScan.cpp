@@ -21,7 +21,7 @@ void ofxSlitScan::draw() {
 }
 
 void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
-                                    glm::vec2 where_start, glm::vec2 where_target, float anim_val, float proto_val) {
+                                    glm::vec2 where_start, glm::vec2 where_target, float anim_val) {
 
     for (int i = 0; i < num_cols; i++) {
         MeshHelper::RectData where;
