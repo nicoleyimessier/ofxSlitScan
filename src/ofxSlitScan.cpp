@@ -27,7 +27,7 @@ void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, ofTexture& te
         MeshHelper::RectData where;
         where.size.x = size.x / num_cols;
         where.size.y = size.y;
-        where.pos.x = where.size.x * i;
+        where.pos.x = where.size.x * i + where_start.x + abs(where_target.x - where_start.x) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
         where.pos.y = where_start.y + abs(where_target.y - where_start.y) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
         //where.pos.y = proto_val;
 
@@ -157,7 +157,7 @@ void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& 
 }
 
 void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
-    float anim_wipe, float anim_slit, float val1, float val2, float val3) {
+    float anim_wipe, float anim_slit) {
 
 
     for (int i = 0; i < num_cols; i++) {
