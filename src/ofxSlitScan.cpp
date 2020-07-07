@@ -166,7 +166,7 @@ void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size
         MeshHelper::RectData where;
         where.size.x = size.x / num_cols;
         where.size.y = size.y;
-        where.pos.y = 0.0f;
+        where.pos.y = pos.y;
         where.pos.x = pos.x + where.size.x * i + size.x - size.x * anim_wipe;
 
         float size_percent = where.size.x / size.x;
