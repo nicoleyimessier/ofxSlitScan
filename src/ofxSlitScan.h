@@ -37,6 +37,8 @@ class ofxSlitScan {
     void drawVerticalMaskOut(
         int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, vector<float> & anim_vals );
 
+    void drawMesh( ofTexture &tex_ref, ofMesh &mesh ); 
+
   private:
     float blinnWyvillCosineApproximation( float x );
     float doubleOddPolynomialSeat( float x, float a, float b, int n );

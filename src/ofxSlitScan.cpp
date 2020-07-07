@@ -66,11 +66,6 @@ void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, ofTexture& te
 
     }
 
-    //! draw mesh
-    tex_ref.bind();
-    mesh.draw();
-    tex_ref.unbind();
-
 }
 
 void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh, float anim_val, float target_ypos) {
@@ -150,10 +145,6 @@ void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& 
     
     MeshHelper::one().addToMesh(mesh, pixel_stretch);
 
-    //! draw mesh
-    tex_ref.bind();
-    mesh.draw();
-    tex_ref.unbind();
 }
 
 void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
@@ -204,10 +195,6 @@ void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size
 
     }
 
-    //! draw mesh
-    tex_ref.bind();
-    mesh.draw();
-    tex_ref.unbind();
 
 }
 
@@ -264,10 +251,6 @@ void ofxSlitScan::drawVerticalTransition(int num_rows, glm::vec2 pos, glm::vec2 
 
     }
 
-    //! draw mesh
-    tex_ref.bind();
-    mesh.draw();
-    tex_ref.unbind();
 
 }
 
@@ -301,10 +284,6 @@ void ofxSlitScan::drawVerticalBase( int num_rows, glm::vec2 pos, glm::vec2 size,
         MeshHelper::one().addToMesh( mesh, quad );
     }
 
-    //! draw mesh
-    tex_ref.bind();
-    mesh.draw();
-    tex_ref.unbind();
 }
 
 void ofxSlitScan::drawVerticalOverlay(int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_move_up, float offset_y )
@@ -336,10 +315,6 @@ void ofxSlitScan::drawVerticalMaskOut(
         MeshHelper::one().addToMesh( mesh, quad );
     }
 
-    //! draw mesh
-    tex_ref.bind();
-    mesh.draw();
-    tex_ref.unbind();
 }
 
 
@@ -404,4 +379,12 @@ float ofxSlitScan::doublePolynomialSigmoid(float x, float a, float b, int n) {
     }
 
     return y;
+}
+
+void ofxSlitScan::drawMesh( ofTexture &tex_ref, ofMesh &mesh )
+{
+    //! draw mesh
+    tex_ref.bind();
+    mesh.draw();
+    tex_ref.unbind();
 }
