@@ -21,7 +21,7 @@ class ofxSlitScan {
 
 
     void drawHorSwipeVertSC( int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_wipe,
-        float anim_slit );
+        float anim_slit, bool lr = false );
 
     // story stream
     void drawVerticalTransition( int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_slit,

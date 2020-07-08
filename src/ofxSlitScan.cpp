@@ -148,7 +148,7 @@ void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& 
 }
 
 void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
-    float anim_wipe, float anim_slit) {
+    float anim_wipe, float anim_slit, bool lr) {
 
 
     for (int i = 0; i < num_cols; i++) {
@@ -158,7 +158,13 @@ void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size
         where.size.x = size.x / num_cols;
         where.size.y = size.y;
         where.pos.y = pos.y;
-        where.pos.x = pos.x + where.size.x * i + size.x - size.x * anim_wipe;
+        if( lr ) {
+            where.pos.x = pos.x + where.size.x * i - size.x + size.x * anim_wipe;
+        }
+        else {
+            where.pos.x = pos.x + where.size.x * i + size.x - size.x * anim_wipe;
+        }
+
 
         float size_percent = where.size.x / size.x;
         float mapCounter = ofMap(i, 0, num_cols + 2, 1, 0);
@@ -201,7 +207,8 @@ void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size
 void ofxSlitScan::drawVerticalTransition(int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
     float anim_slit, float anim_move_up, float anim_mask_out) {
 
-    float mask_pos = 1.0 / 5.0;
+    float mask_pos = 0.0f;
+    //float mask_pos = 1.0 / 5.0;
     float mask_target = pos.y + size.y * mask_pos;
     for (int i = 0; i < num_rows; i++) {
 
