@@ -68,6 +68,53 @@ void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, ofTexture& te
 
 }
 
+void ofxSlitScan::drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofTexture & tex_ref, ofMesh & mesh, 
+											glm::vec2 where_start, glm::vec2 where_target, float anim_val) {
+
+	for (int i = 0; i < num_cols; i++) {
+		MeshHelper::RectData where;
+		where.size.x = size.x / num_cols;
+		where.size.y = size.y;
+		where.pos.x = where.size.x * i + where_start.x + abs(where_target.x - where_start.x) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
+		where.pos.y = where_start.y - abs(where_target.y - where_start.y) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
+		//where.pos.y = proto_val;
+
+		float size_percent = where.size.y / size.y;
+		float mapCounter = ofMap(i, -1, num_cols - 1, 1, 0);
+		//float mapCounter = ofMap(i, 0, num_cols, 0, 1); //uncomment for right to left slot in 
+		float offSsetExp = powf(mapCounter, 2.0f);
+		float offSsetExp_map = ofMap(offSsetExp, 0, 1, 10.0f, (1 - size_percent));
+
+		MeshHelper::RectData tex;
+		glm::vec2 content_size = glm::vec2(tex_ref.getWidth(), tex_ref.getHeight());
+
+		// start values
+		glm::vec2 start_size, start_pos;
+		glm::vec2 target_size, target_pos;
+
+		start_size.y = content_size.y;
+		start_size.x = content_size.x / num_cols;
+		start_pos.y = 0;
+		start_pos.x = tex.size.x * i;
+
+
+		// animation vals
+		target_size.y = content_size.y * offSsetExp_map;
+		target_size.x = content_size.x / num_cols;
+		target_pos.y = content_size.y * offSsetExp_map;
+		target_pos.x = tex.size.x * i;
+
+		tex.size.y = start_size.y - abs(start_size.y - target_size.y) * anim_val;
+		tex.size.x = content_size.x / num_cols;
+		tex.pos.y = start_pos.y - abs(start_pos.y - target_pos.y) * anim_val;
+		tex.pos.x = tex.size.x * i;
+
+		MeshHelper::TexQuad quad = MeshHelper::one().getQuad(where, tex);
+		MeshHelper::one().addToMesh(mesh, quad);
+
+	}
+}
+
 void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh, float anim_val, float target_ypos) {
     MeshHelper::RectData where;
     where.size.x = size.x;

@@ -33,6 +33,10 @@ class ofxSlitScan {
     void drawVerticalOverlay(
         int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_move_up, float offset_y );
 
+	// vss
+	void drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target,
+		float anim_val);
+
     // no pixel stretch
     void drawVerticalMaskOut(
         int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, vector<float> & anim_vals );
