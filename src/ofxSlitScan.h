@@ -13,11 +13,12 @@ class ofxSlitScan {
     void draw();
 
     //! city stream types
-    void drawVerticalSlotIn( int num_cols, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target,
+    void drawVerticalSlotIn(
+        int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target,
         float anim_val);
 
 
-    void drawHorizontalPixel( glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_val, float target_ypos );
+    void drawHorizontalPixel( glm::vec2 pos, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, float anim_val, float target_ypos );
 
 
     void drawHorSwipeVertSC( int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_wipe,
