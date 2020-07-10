@@ -20,7 +20,7 @@ void ofxSlitScan::draw() {
 
 }
 
-void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
+void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh& mesh,
                                     glm::vec2 where_start, glm::vec2 where_target, float anim_val) {
 
     for (int i = 0; i < num_cols; i++) {
@@ -38,7 +38,7 @@ void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, ofTexture& te
         float offSsetExp_map = ofMap(offSsetExp, 0, 1, 10.0f, (1 - size_percent));
 
         MeshHelper::RectData tex;
-        glm::vec2 content_size = glm::vec2(tex_ref.getWidth(), tex_ref.getHeight());
+        //glm::vec2            content_size = content_size; 
 
         // start values
         glm::vec2 start_size, start_pos;
@@ -119,7 +119,9 @@ void ofxSlitScan::typeVSSSlotIn(int num_cols, glm::vec2 size, ofTexture & tex_re
 {
 }
 
-void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh, float anim_val, float target_ypos) {
+void ofxSlitScan::drawHorizontalPixel(
+        glm::vec2 pos, glm::vec2 size, glm::vec2 content_size, ofMesh & mesh, float anim_val, float target_ypos )
+    {
     MeshHelper::RectData where;
     where.size.x = size.x;
     where.size.y = size.y;
@@ -127,7 +129,7 @@ void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& 
     where.pos.y = pos.y + anim_val * target_ypos;
 
     MeshHelper::RectData tex;
-    glm::vec2 content_size = glm::vec2(tex_ref.getWidth(), tex_ref.getHeight());
+    //glm::vec2 content_size = glm::vec2(tex_ref.getWidth(), tex_ref.getHeight());
 
     tex.size.y = content_size.y;
     tex.size.x = content_size.x;
