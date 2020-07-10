@@ -68,14 +68,14 @@ void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, ofTexture& te
 
 }
 
-void ofxSlitScan::drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofTexture & tex_ref, ofMesh & mesh, 
-											glm::vec2 where_start, glm::vec2 where_target, float anim_val) {
+void ofxSlitScan::drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofTexture & tex_ref, ofMesh & mesh,
+								glm::vec2 where_start, glm::vec2 where_target, float xoffset,  float anim_val) {
 
 	for (int i = 0; i < num_cols; i++) {
 		MeshHelper::RectData where;
 		where.size.x = size.x / num_cols;
 		where.size.y = size.y;
-		where.pos.x = where.size.x * i + where_start.x + abs(where_target.x - where_start.x) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
+		where.pos.x = xoffset + where.size.x * i + where_start.x + abs(where_target.x - where_start.x) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
 		where.pos.y = where_start.y - abs(where_target.y - where_start.y) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
 		//where.pos.y = proto_val;
 
@@ -113,6 +113,10 @@ void ofxSlitScan::drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofText
 		MeshHelper::one().addToMesh(mesh, quad);
 
 	}
+}
+
+void ofxSlitScan::typeVSSSlotIn(int num_cols, glm::vec2 size, ofTexture & tex_ref, ofMesh & mesh, glm::vec2 where_start, glm::vec2 where_target, float anim_val)
+{
 }
 
 void ofxSlitScan::drawHorizontalPixel(glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh, float anim_val, float target_ypos) {

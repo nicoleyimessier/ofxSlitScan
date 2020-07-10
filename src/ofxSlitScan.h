@@ -34,7 +34,10 @@ class ofxSlitScan {
         int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_move_up, float offset_y );
 
 	// vss
-	void drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target,
+	void typeVSSSlotIn(int num_cols, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target,
+		float anim_val);
+
+	void drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target, float xoffset,
 		float anim_val);
 
     // no pixel stretch
