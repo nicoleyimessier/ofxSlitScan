@@ -68,13 +68,27 @@ void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, glm::vec2 con
 
 }
 
-void ofxSlitScan::drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofTexture & tex_ref, ofMesh & mesh,
-								glm::vec2 where_start, glm::vec2 where_target, float xoffset,  float anim_val) {
+void ofxSlitScan::typeVSSSlotIn(int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh & mesh, glm::vec2 where_start, glm::vec2 where_target, float xoffset, float anim_val)
+{
+	// add quad on the offset part, then start the slit part for just text size, then add another quad to fill to camvas size
+	MeshHelper::RectData where;
+	where.pos.x = 0;
+	where.pos.y = where_start.y;
+	where.size.y = size.y;
+	where.size.x = xoffset;
+	MeshHelper::RectData tex;
+	tex.size.x = xoffset;
+	tex.size.y = content_size.y;
+	tex.pos.x = 0;
+	tex.pos.y = 0;
+	MeshHelper::TexQuad quad = MeshHelper::one().getQuad(where, tex);
+	MeshHelper::one().addToMesh(mesh, quad);
 
+	// add slit scan with x offset
 	for (int i = 0; i < num_cols; i++) {
 		MeshHelper::RectData where;
-		where.size.x = size.x / num_cols;
-		where.size.y = size.y;
+		where.size.x = content_size.x / num_cols;
+		where.size.y = content_size.y;
 		where.pos.x = xoffset + where.size.x * i + where_start.x + abs(where_target.x - where_start.x) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
 		where.pos.y = where_start.y - abs(where_target.y - where_start.y) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
 		//where.pos.y = proto_val;
@@ -86,7 +100,6 @@ void ofxSlitScan::drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofText
 		float offSsetExp_map = ofMap(offSsetExp, 0, 1, 10.0f, (1 - size_percent));
 
 		MeshHelper::RectData tex;
-		glm::vec2 content_size = glm::vec2(tex_ref.getWidth(), tex_ref.getHeight());
 
 		// start values
 		glm::vec2 start_size, start_pos;
@@ -107,16 +120,12 @@ void ofxSlitScan::drawVerticalSlotInReverse(int num_cols, glm::vec2 size, ofText
 		tex.size.y = start_size.y - abs(start_size.y - target_size.y) * anim_val;
 		tex.size.x = content_size.x / num_cols;
 		tex.pos.y = start_pos.y - abs(start_pos.y - target_pos.y) * anim_val;
-		tex.pos.x = tex.size.x * i;
+		tex.pos.x = xoffset + tex.size.x * i;
 
 		MeshHelper::TexQuad quad = MeshHelper::one().getQuad(where, tex);
 		MeshHelper::one().addToMesh(mesh, quad);
 
 	}
-}
-
-void ofxSlitScan::typeVSSSlotIn(int num_cols, glm::vec2 size, ofTexture & tex_ref, ofMesh & mesh, glm::vec2 where_start, glm::vec2 where_target, float anim_val)
-{
 }
 
 void ofxSlitScan::drawHorizontalPixel(
