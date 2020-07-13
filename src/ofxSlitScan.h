@@ -38,6 +38,9 @@ class ofxSlitScan {
 	void typeVSSSlotIn(int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target, float xoffset,
 		float anim_val);
 
+	void typeVSSSlotOut(int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target, float xoffset,
+		float anim_val);
+
     // no pixel stretch
     void drawVerticalMaskOut(
         int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, vector<float> & anim_vals );
