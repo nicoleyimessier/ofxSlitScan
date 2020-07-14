@@ -160,7 +160,7 @@ void ofxSlitScan::typeVSSSlotOut(int num_cols, glm::vec2 size, glm::vec2 content
 		float size_percent = where.size.y / size.y;
 		float mapCounter = ofMap(i, -1, num_cols - 1, 1, 0);
 		float offSsetExp = powf(mapCounter, 2.0f);
-		float offSsetExp_map = ofMap(offSsetExp, 0, 1, (1 - size_percent), 10.0f);
+		float offSsetExp_map = ofMap(offSsetExp, 0, 1, (1 - size_percent), 5.0f);
 
 		MeshHelper::RectData tex;
 
