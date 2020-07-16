@@ -93,7 +93,7 @@ void ofxSlitScan::typeVSSSlotIn(int num_cols, glm::vec2 size, glm::vec2 content_
 		where.size.x = content_size.x / num_cols;
 		where.size.y = content_size.y;
 		where.pos.x = xoffset + where.size.x * i + where_start.x + abs(where_target.x - where_start.x) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
-		where.pos.y = where_start.y - abs(where_target.y - where_start.y) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
+		where.pos.y = where_start.y + abs(where_target.y - where_start.y) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
 
 		float size_percent = where.size.y / size.y;
 		float mapCounter = ofMap(i, -1, num_cols - 1, 1, 0);
@@ -121,7 +121,7 @@ void ofxSlitScan::typeVSSSlotIn(int num_cols, glm::vec2 size, glm::vec2 content_
 
 		tex.size.y = start_size.y - abs(start_size.y - target_size.y) * anim_val;
 		tex.size.x = content_size.x / num_cols;
-		tex.pos.y = start_pos.y - abs(start_pos.y - target_pos.y) * anim_val;
+		tex.pos.y = start_pos.y + abs(start_pos.y - target_pos.y) * anim_val;
 		tex.pos.x = xoffset + tex.size.x * i;
 
 		MeshHelper::TexQuad quad = MeshHelper::one().getQuad(where, tex);
@@ -155,7 +155,7 @@ void ofxSlitScan::typeVSSSlotOut(int num_cols, glm::vec2 size, glm::vec2 content
 		where.size.y = content_size.y;
 		where.pos.x = xoffset + where.size.x * i + where_start.x + abs(where_target.x - where_start.x) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
 		float indexScale = 1 - (i / (num_cols-1));
-		where.pos.y = where_start.y - abs(where_target.y -where_start.y) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
+		where.pos.y = where_start.y + abs(where_target.y -where_start.y) * ofMap(anim_val, 1.0f, 0.0f, 0.0f, 1.0f);
 
 		float size_percent = where.size.y / size.y;
 		float mapCounter = ofMap(i, -1, num_cols - 1, 1, 0);
@@ -182,7 +182,7 @@ void ofxSlitScan::typeVSSSlotOut(int num_cols, glm::vec2 size, glm::vec2 content
 
 		tex.size.y = start_size.y - abs(start_size.y - target_size.y) * anim_val;
 		tex.size.x = content_size.x / num_cols;
-		tex.pos.y = start_pos.y + abs(start_pos.y - target_pos.y) * (1-anim_val);
+		tex.pos.y = start_pos.y - abs(start_pos.y - target_pos.y) * (1-anim_val);
 		tex.pos.x = xoffset + tex.size.x * i;
 
 		MeshHelper::TexQuad quad = MeshHelper::one().getQuad(where, tex);
