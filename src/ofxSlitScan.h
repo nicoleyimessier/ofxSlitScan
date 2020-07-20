@@ -14,15 +14,14 @@ class ofxSlitScan {
 
     //! city stream types
     void drawVerticalSlotIn(
-        int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target,
-        float anim_val);
+        int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target, float anim_val );
 
 
     void drawHorizontalPixel( glm::vec2 pos, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, float anim_val, float target_ypos );
 
 
-    void drawHorSwipeVertSC( int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_wipe,
-        float anim_slit, bool lr = false );
+    void drawHorSwipeVertSC(
+        int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_wipe, float anim_slit, bool lr = false );
 
     // story stream
     void drawVerticalTransition( int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_slit,
@@ -34,18 +33,21 @@ class ofxSlitScan {
     void drawVerticalOverlay(
         int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_move_up, float offset_y );
 
-	// vss
-	void typeVSSSlotIn(int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target, float xoffset,
-		float anim_val);
+    // vss
+    void typeVSSSlotIn( int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target,
+        float xoffset, float anim_val );
 
-	void typeVSSSlotOut(int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target, float xoffset,
-		float anim_val);
+    void typeVSSSlotOut( int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, glm::vec2 where_start, glm::vec2 where_target,
+        float xoffset, float anim_val );
 
     // no pixel stretch
-    void drawVerticalMaskOut(
-        int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, vector<float> & anim_vals );
+    void drawVerticalMaskOut( int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, vector<float> &anim_vals );
 
-    void drawMesh( ofTexture &tex_ref, ofMesh &mesh ); 
+    void drawMesh( ofTexture &tex_ref, ofMesh &mesh );
+
+    // text animation
+    void drawMaskIn(
+        int num_rows, float row_height, glm::vec2 content_size, ofMesh &mesh, glm::vec2 pos, float anim_val );
 
   private:
     float blinnWyvillCosineApproximation( float x );

@@ -20,6 +20,7 @@ void ofxSlitScan::draw() {
 
 }
 
+
 void ofxSlitScan::drawVerticalSlotIn(int num_cols, glm::vec2 size, glm::vec2 content_size, ofMesh& mesh,
                                     glm::vec2 where_start, glm::vec2 where_target, float anim_val) {
 
@@ -447,6 +448,38 @@ void ofxSlitScan::drawVerticalMaskOut(
         MeshHelper::one().addToMesh( mesh, quad );
     }
 
+}
+
+void ofxSlitScan::drawMaskIn( int num_rows, float row_height, glm::vec2 content_size, ofMesh &mesh, glm::vec2 pos, float anim_val )
+{
+    for( int i = 0; i < num_rows; i++ ) {
+
+        float                pos_offset = 0.0f; 
+
+        MeshHelper::RectData where;
+        where.size.x = content_size.x;
+
+        float size_offset = ofMap( i, 0, num_rows-1, 0, 1 ); 
+
+        where.size.y = row_height * size_offset;
+       
+        where.pos.x = pos.x;
+        where.pos.y = pos.y + row_height * i + pos_offset * i; 
+
+        MeshHelper::RectData tex;
+
+        //ofSetColor( 255, 0, 0, 100 ); 
+        //ofDrawRectangle( where.pos.x, where.pos.y, where.size.x, where.size.y ); 
+        //ofSetColor( 255 );
+
+        tex.size.x = content_size.x;
+        tex.size.y = content_size.y / num_rows * size_offset;
+        tex.pos.x = 0.0f;
+        tex.pos.y = tex.size.y * i - anim_val; 
+
+        MeshHelper::TexQuad quad = MeshHelper::one().getQuad( where, tex );
+        MeshHelper::one().addToMesh( mesh, quad );
+    }
 }
 
 
