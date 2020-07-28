@@ -21,10 +21,10 @@ class ofxSlitScan {
 
 
     void drawHorSwipeVertSC(
-        int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_wipe, float anim_slit, bool lr = false );
+        int num_cols, glm::vec2 pos, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, float anim_wipe, float anim_slit, bool lr = false );
 
     // story stream
-    void drawVerticalTransition( int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, float anim_slit,
+    void drawVerticalTransition( int num_rows, glm::vec2 pos, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, float anim_slit,
         float anim_move_up, float anim_mask_out );
 
     void drawVerticalBase(
@@ -41,7 +41,7 @@ class ofxSlitScan {
         float xoffset, float anim_val );
 
     // no pixel stretch
-    void drawVerticalMaskOut( int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, vector<float> &anim_vals );
+    void drawVerticalMaskOut( int num_cols, glm::vec2 pos, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, vector<float> &anim_vals );
 
     void drawMesh( ofTexture &tex_ref, ofMesh &mesh );
 

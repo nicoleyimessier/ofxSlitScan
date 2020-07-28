@@ -273,7 +273,8 @@ void ofxSlitScan::drawHorizontalPixel(
 
 }
 
-void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
+void ofxSlitScan::drawHorSwipeVertSC(
+    int num_cols, glm::vec2 pos, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh,
     float anim_wipe, float anim_slit, bool lr) {
 
 
@@ -307,7 +308,6 @@ void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size
         offSsetExp_map = ofClamp(offSsetExp_map, size_percent, 1.0f);
 
         MeshHelper::RectData tex;
-        glm::vec2 content_size = glm::vec2(tex_ref.getWidth(), tex_ref.getHeight());
 
         tex.size.y = content_size.y;
         tex.size.x = content_size.x / num_cols ;
@@ -330,7 +330,7 @@ void ofxSlitScan::drawHorSwipeVertSC(int num_cols, glm::vec2 pos, glm::vec2 size
 
 }
 
-void ofxSlitScan::drawVerticalTransition(int num_rows, glm::vec2 pos, glm::vec2 size, ofTexture& tex_ref, ofMesh& mesh,
+void ofxSlitScan::drawVerticalTransition( int num_rows, glm::vec2 pos, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh,
     float anim_slit, float anim_move_up, float anim_mask_out) {
 
     float mask_pos = 0.0f;
@@ -371,7 +371,6 @@ void ofxSlitScan::drawVerticalTransition(int num_rows, glm::vec2 pos, glm::vec2 
 
 
         MeshHelper::RectData tex;
-        glm::vec2 content_size = glm::vec2(tex_ref.getWidth(), tex_ref.getHeight());
 
 
         tex.size.x = content_size.x;
@@ -425,7 +424,7 @@ void ofxSlitScan::drawVerticalOverlay(int num_rows, glm::vec2 pos, glm::vec2 siz
 }
 
 void ofxSlitScan::drawVerticalMaskOut(
-    int num_cols, glm::vec2 pos, glm::vec2 size, ofTexture &tex_ref, ofMesh &mesh, vector<float> &anim_vals )
+    int num_cols, glm::vec2 pos, glm::vec2 size, glm::vec2 content_size, ofMesh &mesh, vector<float> &anim_vals )
 {
     for( int i = 0; i < num_cols; i++ ) {
         MeshHelper::RectData where;
@@ -436,7 +435,6 @@ void ofxSlitScan::drawVerticalMaskOut(
         where.pos.y = pos.y; 
 
         MeshHelper::RectData tex;
-        glm::vec2            content_size = glm::vec2( tex_ref.getWidth(), tex_ref.getHeight() );
 
         // animation vals
         tex.size.y = content_size.y - content_size.y * anim_vals[i];
